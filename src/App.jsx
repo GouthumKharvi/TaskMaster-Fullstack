@@ -16,42 +16,80 @@ import {
   ListTodo,
 } from "lucide-react";
 
-// API Configuration - Backend URL
-const API_URL = "https://c75f40e2-fac0-4bef-90ef-8dc053f978d3-00-2gbljnhqwopxn.pike.replit.dev/api";
+// API Configuration
+const API_URL =
+  "https://c75f40e2-fac0-4bef-90ef-8dc053f978d3-00-2gbljnhqwopxn.pike.replit.dev/api";
 
-// API Service
+// API Service with better error handling
 const api = {
   async getAllTasks() {
-    const response = await fetch(`${API_URL}/tasks`);
-    if (!response.ok) throw new Error("Failed to fetch tasks");
-    return response.json();
+    try {
+      const response = await fetch(`${API_URL}/tasks`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      throw error;
+    }
   },
 
   async addTask(title, category = "work", priority = "medium") {
-    const response = await fetch(`${API_URL}/tasks`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, category, priority }),
-    });
-    if (!response.ok) throw new Error("Failed to add task");
-    return response.json();
+    try {
+      const response = await fetch(`${API_URL}/tasks`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, category, priority }),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error adding task:", error);
+      throw error;
+    }
   },
 
   async toggleTask(id) {
-    const response = await fetch(`${API_URL}/tasks/${id}/toggle`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-    });
-    if (!response.ok) throw new Error("Failed to toggle task");
-    return response.json();
+    try {
+      const response = await fetch(`${API_URL}/tasks/${id}/toggle`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error toggling task:", error);
+      throw error;
+    }
   },
 
   async deleteTask(id) {
-    const response = await fetch(`${API_URL}/tasks/${id}`, {
-      method: "DELETE",
-    });
-    if (!response.ok) throw new Error("Failed to delete task");
-    return response.json();
+    try {
+      const response = await fetch(`${API_URL}/tasks/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      throw error;
+    }
   },
 };
 
@@ -65,6 +103,7 @@ export default function TaskBoard() {
   const [darkMode, setDarkMode] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [error, setError] = useState("");
+  const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
     loadTasks();
@@ -80,12 +119,19 @@ export default function TaskBoard() {
 
   const loadTasks = async () => {
     try {
+      setLoading(true);
       const data = await api.getAllTasks();
       setTasks(data);
       setError("");
+      setIsConnected(true);
     } catch (err) {
-      setError("Failed to load tasks. Make sure backend is running.");
+      setError(
+        "⚠️ Cannot connect to backend. Please ensure:\n1. Backend server is running on port 8000\n2. CORS is enabled in your FastAPI backend\n3. The backend URL is correct",
+      );
+      setIsConnected(false);
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,7 +146,7 @@ export default function TaskBoard() {
       setPriority("medium");
       await loadTasks();
     } catch (err) {
-      setError("Failed to add task");
+      setError("Failed to add task. Check your backend connection.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -173,7 +219,7 @@ export default function TaskBoard() {
     },
     {
       id: "health",
-      emoji: "💪",
+      emoji: "🩺",
       label: "Health",
       color: darkMode
         ? "from-green-600 to-emerald-600"
@@ -240,10 +286,28 @@ export default function TaskBoard() {
           ></div>
         </div>
 
+        {/* Connection Status Banner */}
+        {!isConnected && (
+          <div className="relative z-10 mb-4 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-lg">
+            <p className="font-semibold text-sm md:text-base">
+              🔴 Backend Not Connected
+            </p>
+            <p className="text-xs md:text-sm mt-1 opacity-90">
+              Make sure your FastAPI backend is running and CORS is enabled
+            </p>
+            <button
+              onClick={loadTasks}
+              className="mt-2 px-4 py-2 bg-white text-red-600 rounded-lg font-bold text-sm hover:bg-gray-100 transition-all"
+            >
+              Retry Connection
+            </button>
+          </div>
+        )}
+
         {/* Error Banner */}
         {error && (
           <div className="relative z-10 mb-4 bg-red-500 text-white px-6 py-4 rounded-2xl shadow-lg">
-            <p className="font-semibold">⚠️ {error}</p>
+            <p className="font-semibold whitespace-pre-line">{error}</p>
           </div>
         )}
 
@@ -256,7 +320,9 @@ export default function TaskBoard() {
               >
                 <Sparkles className="w-8 h-8 text-white animate-pulse" />
               </div>
-              <div className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-4 border-white animate-bounce"></div>
+              <div
+                className={`absolute -top-1 -right-1 w-5 h-5 ${isConnected ? "bg-green-500" : "bg-red-500"} rounded-full border-4 border-white ${isConnected ? "animate-bounce" : "animate-pulse"}`}
+              ></div>
             </div>
             <div>
               <h1
@@ -273,7 +339,9 @@ export default function TaskBoard() {
                 className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"} flex items-center gap-1 mt-1`}
               >
                 <Zap className="w-4 h-4" />
-                Get things done with style
+                {isConnected
+                  ? "Get things done with style"
+                  : "Waiting for backend..."}
               </p>
             </div>
           </div>
@@ -437,7 +505,7 @@ export default function TaskBoard() {
                   onKeyPress={handleKeyPress}
                   placeholder="✨ What's your next big thing?"
                   className={`w-full px-6 py-4 ${darkMode ? "bg-slate-900/50 border-slate-600 text-white placeholder-gray-500" : "bg-gray-50 border-gray-300 placeholder-gray-400"} border-2 rounded-2xl focus:outline-none focus:ring-4 ${darkMode ? "focus:ring-purple-500/50 focus:border-purple-500" : "focus:ring-indigo-500/50 focus:border-indigo-500"} transition-all text-lg font-medium`}
-                  disabled={loading}
+                  disabled={loading || !isConnected}
                 />
               </div>
 
@@ -446,6 +514,7 @@ export default function TaskBoard() {
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
                   className={`px-5 py-4 ${darkMode ? "bg-slate-900/50 border-slate-600 text-white" : "bg-gray-50 border-gray-300"} border-2 rounded-2xl focus:outline-none focus:ring-4 ${darkMode ? "focus:ring-purple-500/50" : "focus:ring-indigo-500/50"} font-semibold`}
+                  disabled={!isConnected}
                 >
                   {categories.map((cat) => (
                     <option key={cat.id} value={cat.id}>
@@ -456,7 +525,7 @@ export default function TaskBoard() {
 
                 <button
                   onClick={handleAddTask}
-                  disabled={loading || !newTask.trim()}
+                  disabled={loading || !newTask.trim() || !isConnected}
                   className={`px-8 py-4 bg-gradient-to-r ${darkMode ? "from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700" : "from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700"} text-white rounded-2xl font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-3 shadow-xl hover:shadow-2xl hover:scale-105 text-lg`}
                 >
                   <Plus className="w-6 h-6" />
@@ -496,6 +565,7 @@ export default function TaskBoard() {
                   <button
                     key={p.value}
                     onClick={() => setPriority(p.value)}
+                    disabled={!isConnected}
                     className={`px-4 py-2 rounded-xl font-bold transition-all flex items-center gap-2 ${
                       priority === p.value
                         ? `bg-gradient-to-r ${p.color} text-white shadow-lg scale-105`
@@ -524,7 +594,7 @@ export default function TaskBoard() {
               label: c.label,
               icon: c.emoji,
             })),
-            { id: "high", label: "High Priority", icon: "🔥" },
+            { id: "high", label: "High Priority", icon: "🚨" },
           ].map(({ id, label, icon }) => (
             <button
               key={id}
@@ -547,7 +617,18 @@ export default function TaskBoard() {
 
         {/* Task List */}
         <div className="relative z-10 space-y-4">
-          {filteredTasks.length === 0 ? (
+          {loading && tasks.length === 0 ? (
+            <div
+              className={`${darkMode ? "bg-slate-800/80 backdrop-blur-xl border-slate-700" : "bg-white/80 backdrop-blur-xl border-white"} border rounded-3xl p-20 text-center shadow-xl`}
+            >
+              <div className="text-6xl mb-4 animate-bounce">⏳</div>
+              <p
+                className={`text-2xl font-bold ${darkMode ? "text-white" : "text-gray-900"}`}
+              >
+                Loading tasks...
+              </p>
+            </div>
+          ) : filteredTasks.length === 0 ? (
             <div
               className={`${darkMode ? "bg-slate-800/80 backdrop-blur-xl border-slate-700" : "bg-white/80 backdrop-blur-xl border-white"} border rounded-3xl p-20 text-center shadow-xl`}
             >
@@ -564,7 +645,7 @@ export default function TaskBoard() {
               >
                 {filter === "all"
                   ? "Create your first task to get started! 🚀"
-                  : "Looking good! Keep it up! 💪"}
+                  : "Still waiting for the task to appear 👀"}
               </p>
             </div>
           ) : (
@@ -620,7 +701,7 @@ export default function TaskBoard() {
                           {task.title}
                         </span>
                         {task.priority === "high" && !task.completed && (
-                          <span className="animate-pulse text-2xl">🔥</span>
+                          <span className="animate-pulse text-2xl">🚨</span>
                         )}
                       </div>
                       <div className="flex items-center gap-2 flex-wrap">
@@ -674,12 +755,12 @@ export default function TaskBoard() {
             className={`relative z-10 mt-10 text-center ${darkMode ? "text-gray-400" : "text-gray-600"} text-base font-medium`}
           >
             🎯 Managing {tasks.length} {tasks.length === 1 ? "task" : "tasks"} •{" "}
-            {completedCount} completed • Keep crushing it! 💪
+            {completedCount} completed • Keep crushing it!
           </div>
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes slideIn {
           from {
             opacity: 0;
