@@ -1,0 +1,275 @@
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+from typing import List, Optional
+from datetime import datetime
+
+# Initialize FastAPI app
+app = FastAPI(title="TaskMaster API",
+              description=
+              "A beautiful task management API with categories and priorities",
+              version="1.0.0")
+
+# Configure CORS - Allow frontend to communicate with backend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "*"
+    ],  # In production, I will this replace with specific frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Pydantic Models (Request/Response validation)
+
+
+class TaskCreate(BaseModel):
+    """Model for creating a new task"""
+    title: str
+    category: str = "work"
+    priority: str = "medium"
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "title": "Complete project documentation",
+                "category": "work",
+                "priority": "high"
+            }
+        }
+
+
+class Task(BaseModel):
+    """Model for task response"""
+    id: int
+    title: str
+    category: str
+    priority: str
+    completed: bool
+    created_at: str
+    completed_at: Optional[str] = None
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "id": 1,
+                "title": "Complete project documentation",
+                "category": "work",
+                "priority": "high",
+                "completed": False,
+                "created_at": "2024-01-15T10:30:00",
+                "completed_at": None
+            }
+        }
+
+
+# In-Memory Storage (Runtime persistence)
+
+tasks_db: List[dict] = []
+next_id: int = 1
+
+# API Endpoints
+
+
+@app.get("/", tags=["Root"])
+def read_root():
+    """
+    Root endpoint - API health check and information
+    """
+    return {
+        "message":
+        "🚀 TaskMaster API is running!",
+        "version":
+        "1.0.0",
+        "status":
+        "healthy",
+        "endpoints": {
+            "GET /api/tasks": "List all tasks",
+            "POST /api/tasks": "Create a new task",
+            "PATCH /api/tasks/{id}/toggle": "Toggle task completion status",
+            "DELETE /api/tasks/{id}": "Delete a task"
+        },
+        "features": [
+            "Category system (Work, Personal, Health, Learning, Sports)",
+            "Priority levels (Low, Medium, High)", "Task completion tracking",
+            "In-memory storage"
+        ]
+    }
+
+
+@app.get("/api/tasks", response_model=List[Task], tags=["Tasks"])
+def get_all_tasks():
+    """
+    Retrieve all tasks
+
+    Returns:
+        List of all tasks with their details
+    """
+    return tasks_db
+
+
+@app.post("/api/tasks", response_model=Task, status_code=201, tags=["Tasks"])
+def create_task(task: TaskCreate):
+    """
+    Create a new task
+
+    Args:
+        task: TaskCreate object with title, category, and priority
+
+    Returns:
+        Created task with assigned ID and timestamps
+    """
+    global next_id
+
+    # Create new task object
+    new_task = {
+        "id": next_id,
+        "title": task.title,
+        "category": task.category,
+        "priority": task.priority,
+        "completed": False,
+        "created_at": datetime.now().isoformat(),
+        "completed_at": None
+    }
+
+    # Add to database
+    tasks_db.append(new_task)
+    next_id += 1
+
+    return new_task
+
+
+@app.patch("/api/tasks/{task_id}/toggle", response_model=Task, tags=["Tasks"])
+def toggle_task_completion(task_id: int):
+    """
+    Toggle task completion status (complete ↔ incomplete)
+
+    Args:
+        task_id: ID of the task to toggle
+
+    Returns:
+        Updated task object
+
+    Raises:
+        HTTPException: 404 if task not found
+    """
+    # Find and update task
+    for task in tasks_db:
+        if task["id"] == task_id:
+            task["completed"] = not task["completed"]
+            task["completed_at"] = datetime.now().isoformat(
+            ) if task["completed"] else None
+            return task
+
+    # Task not found
+    raise HTTPException(status_code=404,
+                        detail=f"Task with ID {task_id} not found")
+
+
+@app.delete("/api/tasks/{task_id}", tags=["Tasks"])
+def delete_task(task_id: int):
+    """
+    Delete a task
+
+    Args:
+        task_id: ID of the task to delete
+
+    Returns:
+        Success message with deleted task ID
+
+    Raises:
+        HTTPException: 404 if task not found
+    """
+    global tasks_db
+
+    # Store initial length to check if task was found
+    initial_length = len(tasks_db)
+
+    # Filter out the task to delete
+    tasks_db = [task for task in tasks_db if task["id"] != task_id]
+
+    # Check if task was actually deleted
+    if len(tasks_db) == initial_length:
+        raise HTTPException(status_code=404,
+                            detail=f"Task with ID {task_id} not found")
+
+    return {"message": "Task deleted successfully", "id": task_id}
+
+
+# Additional Utility Endpoints (Optional but useful)
+
+
+@app.get("/api/stats", tags=["Statistics"])
+def get_statistics():
+    """
+    Get task statistics
+
+    Returns:
+        Statistics about tasks (total, completed, by category, by priority)
+    """
+    total = len(tasks_db)
+    completed = sum(1 for task in tasks_db if task["completed"])
+    active = total - completed
+
+    # Category breakdown
+    categories = {}
+    for task in tasks_db:
+        cat = task["category"]
+        if cat not in categories:
+            categories[cat] = {"total": 0, "completed": 0}
+        categories[cat]["total"] += 1
+        if task["completed"]:
+            categories[cat]["completed"] += 1
+
+    # Priority breakdown
+    priorities = {}
+    for task in tasks_db:
+        pri = task["priority"]
+        if pri not in priorities:
+            priorities[pri] = {"total": 0, "completed": 0}
+        priorities[pri]["total"] += 1
+        if task["completed"]:
+            priorities[pri]["completed"] += 1
+
+    return {
+        "total_tasks":
+        total,
+        "completed_tasks":
+        completed,
+        "active_tasks":
+        active,
+        "completion_percentage":
+        round((completed / total * 100) if total > 0 else 0, 2),
+        "by_category":
+        categories,
+        "by_priority":
+        priorities
+    }
+
+
+@app.delete("/api/tasks", tags=["Tasks"])
+def delete_all_tasks():
+    """
+    Delete all tasks (useful for testing/reset)
+
+    Returns:
+        Success message with count of deleted tasks
+    """
+    global tasks_db, next_id
+
+    count = len(tasks_db)
+    tasks_db = []
+    next_id = 1
+
+    return {
+        "message": "All tasks deleted successfully",
+        "deleted_count": count
+    }
+
+
+# Run Server (for local development)
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
