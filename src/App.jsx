@@ -16,8 +16,8 @@ import {
   ListTodo,
 } from "lucide-react";
 
-// API Configuration - Update this with your Replit backend URL
-const API_URL = "http://localhost:8000/api";
+// API Configuration - Backend URL
+const API_URL = "https://c75f40e2-fac0-4bef-90ef-8dc053f978d3-00-2gbljnhqwopxn.pike.replit.dev/api";
 
 // API Service
 const api = {
