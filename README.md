@@ -7,6 +7,13 @@ It was developed as part of a **Vibe Coding Assignment (60 minutes)** to demonst
 
 The focus of this project is **simplicity, clarity, and good engineering judgment**, rather than over-engineering.
 
+
+
+
+https://github.com/user-attachments/assets/d5e9f922-2b4d-4a24-b208-0205e9319188
+
+
+
 ---
 
 ## 🎯 Project Goal
