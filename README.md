@@ -9,12 +9,12 @@ The focus of this project is **simplicity, clarity, and good engineering judgmen
 
 
 
-
-https://github.com/user-attachments/assets/d5e9f922-2b4d-4a24-b208-0205e9319188
-
-
-
 ---
+
+
+
+https://github.com/user-attachments/assets/8c5725ea-cad9-402c-9d68-0b38c6c4bba8
+
 
 ## 🎯 Project Goal
 
