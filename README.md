@@ -29,7 +29,7 @@ TaskMaster is a **sleek, modern task board** that proves you don't need weeks to
 
 ```
 🎨 Beautiful UI          →  Dark/Light modes, smooth animations, glassmorphism
-⚡ Lightning Fast        →  FastAPI backend, Vite frontend, instant responses  
+⚡ Lightning Fast        →  FastAPI backend, React.JS,Vite frontend, instant responses  
 🧠 Smart Features        →  Priority levels, categories, progress tracking
 📱 Fully Responsive      →  Looks perfect on any device
 🎯 Production-Ready      →  Clean APIs, error handling, type validation
