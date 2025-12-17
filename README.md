@@ -13,7 +13,10 @@ The focus of this project is **simplicity, clarity, and good engineering judgmen
 
 
 
-https://github.com/user-attachments/assets/8c5725ea-cad9-402c-9d68-0b38c6c4bba8
+## 🎥 Demo Video
+
+[![Watch the demo](https://img.shields.io/badge/▶-Watch%20Demo-blue)](https://github.com/user-attachments/assets/8c5725ea-cad9-402c-9d68-0b38c6c4bba8)
+
 
 
 ## 🎯 Project Goal
