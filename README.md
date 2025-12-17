@@ -258,11 +258,11 @@ This project is **open source** and available under the [MIT License](LICENSE).
 
 **Gouthum Kharvi**
 
-*Asprining AI-ML Engineer | Python Enthusiast | GenAI Explorer*
+*Asprining AI-ML Engineer | Python Enthusiast | GenAI & AgenticAI Explorer*
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)]([https://github.com/yourusername](https://github.com/GouthumKharvi))
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/yourprofile)
-[![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=google-chrome&logoColor=white)](https://yourportfolio.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)]([https://linkedin.com/in/yourprofile](https://www.linkedin.com/in/gouthum-kharvi-2366a6219/))
+[![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=google-chrome&logoColor=white)]( https://gouthumkharvi.github.io/Datascience_Portfolio/)
 
 </div>
 
@@ -282,7 +282,7 @@ This project is **open source** and available under the [MIT License](LICENSE).
 
 ### 🌟 If you found this helpful, consider giving it a star!
 
-**Built with ❤️ in 60 minutes**
+**Built with Replit ❤️**
 
 [⬆ Back to Top](#-taskmaster)
 
