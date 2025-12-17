@@ -4,7 +4,7 @@
 
 ### *Get things done with style* 🚀
 
-**A beautiful, full-stack task management app built in 60 minutes**
+**A beautiful, full-stack task management app built complete with replit**
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
