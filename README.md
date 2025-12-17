@@ -1,6 +1,6 @@
 
 ```md
-# 🚀 TaskMaster – Full-Stack Task Board
+ 🚀 TaskMaster – Full-Stack Task Board
 
 TaskMaster is a clean, full-stack task management application built using **FastAPI** (Python) and **React + Tailwind CSS**.  
 It was developed as part of a **Vibe Coding Assignment (60 minutes)** to demonstrate rapid full-stack development, clean API design, and a polished, user-friendly interface.
