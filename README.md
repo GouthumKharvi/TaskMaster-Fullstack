@@ -57,7 +57,8 @@ The goal of this assignment was to build a **working end-to-end product** within
 - In-memory task storage (runtime only)
 - CORS enabled for frontend integration
 
--TasMaster FrondEnd Preview  :  https://replit.com/@gouthumkharvi/TaskMaster-Frontend
+-TaskMaster FrondEnd Preview  :  https://replit.com/@gouthumkharvi/TaskMaster-Frontend
+-TaskMaster WEB VIEW :  https://39a73aac-db78-4b14-88fb-40969459157f-00-1ppezzsznvbe9.pike.replit.dev/
 
 ---
 
