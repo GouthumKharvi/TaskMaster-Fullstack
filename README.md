@@ -13,9 +13,8 @@ The focus of this project is **simplicity, clarity, and good engineering judgmen
 
 
 
-## 🎥 Demo Video
-
-[![Watch the demo](https://img.shields.io/badge/▶-Watch%20Demo-blue)](https://github.com/user-attachments/assets/8c5725ea-cad9-402c-9d68-0b38c6c4bba8)
+## 🎥 Demo video
+![TaskMasterwebappdemo1-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/3dc103a3-db7b-4fc6-9673-3915663bf0d9)
 
 
 
