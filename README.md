@@ -11,7 +11,7 @@
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 
-[Live Demo](https://39a73aac-db78-4b14-88fb-40969459157f-00-1ppezzsznvbe9.pike.replit.dev/) • [Video Walkthrough](your-loom-url) • [Report Bug]([your-github-url/issues](https://github.com/GouthumKharvi/TaskMaster-Fullstack/issues))
+[Live Demo](https://39a73aac-db78-4b14-88fb-40969459157f-00-1ppezzsznvbe9.pike.replit.dev/) • [Video Walkthrough]([your-loom-url](https://www.loom.com/share/6604238760dd40d7a0dad1841ad259a9)) • [Report Bug]([your-github-url/issues](https://github.com/GouthumKharvi/TaskMaster-Fullstack/issues))
 
 ![TaskMaster Demo](https://github.com/user-attachments/assets/22ddc3a8-f61e-43d2-ac64-b5bc41f5255c)
 
@@ -87,7 +87,7 @@ TaskMaster is a **sleek, modern task board** that proves you don't need weeks to
 
 <div align="center">
 
-### 📺 [Watch the 2-Minute Walkthrough](your-loom-url)
+### 📺 [Watch the 2-Minute Walkthrough]([your-loom-url](https://www.loom.com/share/6604238760dd40d7a0dad1841ad259a9))
 
 *See how everything works, from adding tasks to the confetti celebration!*
 
