@@ -1,7 +1,4 @@
 
-
----
-
 ```md
 # 🚀 TaskMaster – Full-Stack Task Board
 
@@ -122,8 +119,8 @@ npm run dev
 
 ## 🌐 Live Preview
 
-* **Frontend Preview:** Hosted via Replit
-* **Backend API:** Hosted via Replit
+* **Frontend Preview:** Hosted via Replit - https://39a73aac-db78-4b14-88fb-40969459157f-00-1ppezzsznvbe9.pike.replit.dev/
+* **Backend API:** Hosted via Replit - https://c75f40e2-fac0-4bef-90ef-8dc053f978d3-00-2gbljnhqwopxn.pike.replit.dev/
 
 > The application is fully functional from the shared preview link.
 
