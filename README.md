@@ -258,9 +258,9 @@ This project is **open source** and available under the [MIT License](LICENSE).
 
 **Gouthum Kharvi**
 
-*Full-Stack Developer | Python Enthusiast | GenAI Explorer*
+*Asprining AI-ML Engineer | Python Enthusiast | GenAI Explorer*
 
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/yourusername)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)]([https://github.com/yourusername](https://github.com/GouthumKharvi))
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/yourprofile)
 [![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=google-chrome&logoColor=white)](https://yourportfolio.com)
 
