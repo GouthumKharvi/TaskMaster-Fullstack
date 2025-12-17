@@ -87,7 +87,9 @@ TaskMaster is a **sleek, modern task board** that proves you don't need weeks to
 
 <div align="center">
 
-### 📺 [Watch the 2-Minute Walkthrough]([your-loom-url](https://www.loom.com/share/6604238760dd40d7a0dad1841ad259a9))
+## 🎥 Video Walkthrough (2 Minutes)
+[Click here to watch the demo on Loom](https://www.loom.com/share/6604238760dd40d7a0dad1841ad259a9)
+
 
 *See how everything works, from adding tasks to the confetti celebration!*
 
